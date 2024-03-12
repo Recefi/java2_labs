@@ -1,7 +1,4 @@
-package org.recefi.lab;
-
-import javax.jws.WebMethod;
-
+package org.recefi.lab.server;
 public class Cell {
     public int rowIdx;
     public int colIdx;

@@ -1,7 +1,5 @@
 package org.recefi.lab.server;
 
-import org.recefi.lab.Cell;
-
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.Endpoint;

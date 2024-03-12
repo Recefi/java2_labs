@@ -1,6 +1,5 @@
 package org.recefi.lab.server;
 
-import org.recefi.lab.Cell;
 import org.recefi.lab.ObserverInt;
 
 import java.util.ArrayList;
@@ -71,7 +70,7 @@ public class SModel {
             k = i;
             count = 1;
             if (k+20 < 361) {
-                while (board.get(k + 20).ownerId == board.get(k).ownerId && (k + 20) % 19 > i % 19) {
+                while (board.get(k+20).ownerId == board.get(k).ownerId && (k+20)%19 > i%19) {
                     count++;
                     k += 20;
                     if (k+20 >= 361)
