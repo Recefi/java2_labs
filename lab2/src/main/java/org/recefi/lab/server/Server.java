@@ -24,18 +24,20 @@ public class Server {
 
     @WebMethod
     public OwnerEnum checkMove() {
-        return OwnerEnum.values()[moveCount % 2];
+        //return OwnerEnum.values()[moveCount % 2];
+        return OwnerEnum.fromInt(moveCount % 2);
     }
 
     @WebMethod
     public OwnerEnum connect() {
         if (clientNum > 1) {
-            clientNum = 0;
             m.reset();
+            clientNum = 0;
             moveCount = 0;
         }
         System.out.println("Client " + clientNum + " connected.");
-        return OwnerEnum.values()[clientNum++];
+        //return OwnerEnum.values()[clientNum++];
+        return OwnerEnum.fromInt(clientNum++);
     }
 
     @WebMethod
