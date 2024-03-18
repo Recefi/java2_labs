@@ -2,6 +2,7 @@ package org.recefi.lab.client;
 
 import org.recefi.lab.ObserverInt;
 import org.recefi.lab.webservice.Cell;
+import org.recefi.lab.webservice.OwnerEnum;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class CModel {
                 Cell cell = new Cell();
                 cell.setRowIdx(i);
                 cell.setColIdx(j);
-                cell.setOwnerId(-1);
+                cell.setOwner(OwnerEnum.NONE);
                 board.add(cell);
             }
         }
@@ -59,26 +60,26 @@ public class CModel {
         refresh();
     }
 
-    public int checkWin() {
+    public OwnerEnum checkWin() {
         for (int i = 0; i < 356; i++) {
-            if (board.get(i).getOwnerId() == -1)
+            if (board.get(i).getOwner() == OwnerEnum.NONE)
                 continue;
 
             int k = i;
             int count = 1;
-            while (board.get(k+1).getOwnerId() == board.get(k).getOwnerId() && (k+1)%19 > i%19) {
+            while (board.get(k+1).getOwner() == board.get(k).getOwner() && (k+1)%19 > i%19) {
                 count++;
                 k++;
                 if (k+1 >= 361)
                     break;
             }
             if (count >= 6)
-                return board.get(i).getOwnerId();
+                return board.get(i).getOwner();
 
             k = i;
             count = 1;
             if (k+20 < 361) {
-                while (board.get(k + 20).getOwnerId() == board.get(k).getOwnerId() && (k + 20) % 19 > i % 19) {
+                while (board.get(k + 20).getOwner() == board.get(k).getOwner() && (k + 20) % 19 > i % 19) {
                     count++;
                     k += 20;
                     if (k+20 >= 361)
@@ -86,12 +87,12 @@ public class CModel {
                 }
             }
             if (count >= 6)
-                return board.get(i).getOwnerId();
+                return board.get(i).getOwner();
 
             k = i;
             count = 1;
             if (k+19 < 361) {
-                while (board.get(k+19).getOwnerId() == board.get(k).getOwnerId()) {
+                while (board.get(k+19).getOwner() == board.get(k).getOwner()) {
                     count++;
                     k+=19;
                     if(k+19 >= 361)
@@ -99,12 +100,12 @@ public class CModel {
                 }
             }
             if (count >= 6)
-                return board.get(i).getOwnerId();
+                return board.get(i).getOwner();
 
             k = i;
             count = 1;
             if (k+18 < 361) {
-                while (board.get(k+18).getOwnerId() == board.get(k).getOwnerId() && (k+18)%19 < i%19) {
+                while (board.get(k+18).getOwner() == board.get(k).getOwner() && (k+18)%19 < i%19) {
                     count++;
                     k+=18;
                     if (k+18 >= 361)
@@ -112,8 +113,8 @@ public class CModel {
                 }
             }
             if (count >= 6)
-                return board.get(i).getOwnerId();
+                return board.get(i).getOwner();
         }
-        return -1;
+        return OwnerEnum.NONE;
     }
 }

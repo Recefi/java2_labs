@@ -28,26 +28,26 @@ public interface Server {
     /**
      * 
      * @return
-     *     returns int
+     *     returns org.recefi.lab.webservice.OwnerEnum
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "connect", targetNamespace = "http://server.lab.recefi.org/", className = "org.recefi.lab.webservice.Connect")
     @ResponseWrapper(localName = "connectResponse", targetNamespace = "http://server.lab.recefi.org/", className = "org.recefi.lab.webservice.ConnectResponse")
     @Action(input = "http://server.lab.recefi.org/Server/connectRequest", output = "http://server.lab.recefi.org/Server/connectResponse")
-    public int connect();
+    public OwnerEnum connect();
 
     /**
      * 
      * @return
-     *     returns int
+     *     returns org.recefi.lab.webservice.OwnerEnum
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "checkWin", targetNamespace = "http://server.lab.recefi.org/", className = "org.recefi.lab.webservice.CheckWin")
     @ResponseWrapper(localName = "checkWinResponse", targetNamespace = "http://server.lab.recefi.org/", className = "org.recefi.lab.webservice.CheckWinResponse")
     @Action(input = "http://server.lab.recefi.org/Server/checkWinRequest", output = "http://server.lab.recefi.org/Server/checkWinResponse")
-    public int checkWin();
+    public OwnerEnum checkWin();
 
     /**
      * 
@@ -76,14 +76,14 @@ public interface Server {
     /**
      * 
      * @return
-     *     returns int
+     *     returns org.recefi.lab.webservice.OwnerEnum
      */
     @WebMethod
     @WebResult(targetNamespace = "")
     @RequestWrapper(localName = "checkMove", targetNamespace = "http://server.lab.recefi.org/", className = "org.recefi.lab.webservice.CheckMove")
     @ResponseWrapper(localName = "checkMoveResponse", targetNamespace = "http://server.lab.recefi.org/", className = "org.recefi.lab.webservice.CheckMoveResponse")
     @Action(input = "http://server.lab.recefi.org/Server/checkMoveRequest", output = "http://server.lab.recefi.org/Server/checkMoveResponse")
-    public int checkMove();
+    public OwnerEnum checkMove();
 
     /**
      * 
