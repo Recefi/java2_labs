@@ -16,7 +16,6 @@ public class Msg {
         this.cells = cells;
     }
 
-    // for debugging (need only to print to a console)
 //    @Override
 //    public String toString() {
 ////        String str = "Msg{" + "act=" + act + ", cells=[";

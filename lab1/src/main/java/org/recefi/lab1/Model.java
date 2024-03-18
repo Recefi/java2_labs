@@ -9,7 +9,7 @@ public class Model {
     private void init() {
         for (int i = 0; i < 19; ++i)
             for (int j = 0; j < 19; ++j)
-                board.add(new Cell(i, j, -1));
+                board.add(new Cell(i, j, OwnerEnum.NONE));
     }
 
     public void reset() {
@@ -49,26 +49,26 @@ public class Model {
         refresh();
     }
 
-    public int checkWin() {
+    public OwnerEnum checkWin() {
         for (int i = 0; i < 356; i++) {
-            if (board.get(i).ownerId == -1)
+            if (board.get(i).owner == OwnerEnum.NONE)
                 continue;
 
             int k = i;
             int count = 1;
-            while (board.get(k+1).ownerId == board.get(k).ownerId && (k+1)%19 > i%19) {
+            while (board.get(k+1).owner == board.get(k).owner && (k+1)%19 > i%19) {
                 count++;
                 k++;
                 if (k+1 >= 361)
                     break;
             }
             if (count >= 6)
-                return board.get(i).ownerId;
+                return board.get(i).owner;
 
             k = i;
             count = 1;
             if (k+20 < 361) {
-                while (board.get(k + 20).ownerId == board.get(k).ownerId && (k + 20) % 19 > i % 19) {
+                while (board.get(k + 20).owner == board.get(k).owner && (k + 20) % 19 > i % 19) {
                     count++;
                     k += 20;
                     if (k+20 >= 361)
@@ -76,12 +76,12 @@ public class Model {
                 }
             }
             if (count >= 6)
-                return board.get(i).ownerId;
+                return board.get(i).owner;
 
             k = i;
             count = 1;
             if (k+19 < 361) {
-                while (board.get(k+19).ownerId == board.get(k).ownerId) {
+                while (board.get(k+19).owner == board.get(k).owner) {
                     count++;
                     k+=19;
                     if(k+19 >= 361)
@@ -89,12 +89,12 @@ public class Model {
                 }
             }
             if (count >= 6)
-                return board.get(i).ownerId;
+                return board.get(i).owner;
 
             k = i;
             count = 1;
             if (k+18 < 361) {
-                while (board.get(k+18).ownerId == board.get(k).ownerId && (k+18)%19 < i%19) {
+                while (board.get(k+18).owner == board.get(k).owner && (k+18)%19 < i%19) {
                     count++;
                     k+=18;
                     if (k+18 >= 361)
@@ -102,8 +102,8 @@ public class Model {
                 }
             }
             if (count >= 6)
-                return board.get(i).ownerId;
+                return board.get(i).owner;
         }
-        return -1;
+        return OwnerEnum.NONE;
     }
 }

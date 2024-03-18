@@ -1,10 +1,7 @@
 package org.recefi.lab1.server;
 
 import com.google.gson.Gson;
-import org.recefi.lab1.ActionEnum;
-import org.recefi.lab1.Cell;
-import org.recefi.lab1.Model;
-import org.recefi.lab1.Msg;
+import org.recefi.lab1.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -43,8 +40,8 @@ public class SController implements Runnable {
 
     void nextMove() {
         try {
-            int win = m.checkWin();
-            if (win == -1) {
+            OwnerEnum win = m.checkWin();
+            if (win == OwnerEnum.NONE) {
                 String str_msg = gson.toJson(new Msg(ActionEnum.MOVE2, m.getBoard()));
                 if (moveCount % 2 == 1)
                     dos2.writeUTF(str_msg);
@@ -52,7 +49,7 @@ public class SController implements Runnable {
                     dos1.writeUTF(str_msg);
             }
             else {
-                if (win == 0) {
+                if (win == OwnerEnum.BLACK) {
                     dos1.writeUTF(gson.toJson(new Msg(ActionEnum.WIN)));
                     dos2.writeUTF(gson.toJson(new Msg(ActionEnum.LOSE, m.getBoard())));
                 } else {

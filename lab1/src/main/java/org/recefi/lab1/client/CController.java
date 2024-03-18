@@ -9,10 +9,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import org.recefi.lab1.ActionEnum;
-import org.recefi.lab1.Cell;
-import org.recefi.lab1.Model;
-import org.recefi.lab1.Msg;
+import org.recefi.lab1.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -38,7 +35,7 @@ public class CController {
     private Model m = new Model();
     private Gson gson = new Gson();
 
-    private int playerId = -1;
+    private OwnerEnum player = OwnerEnum.NONE;
     private int move = 0;
     private ArrayList<Cell> cellBuf = new ArrayList<>();
 
@@ -54,12 +51,12 @@ public class CController {
         pane.setOnMouseClicked(evt -> {
             if (circle.getOpacity() == 0 && move > 0) {
                 moveLbl.setText("" + --move);
-                cellBuf.add(new Cell(rowIdx, colIdx, playerId));
-                m.move1(new Cell(rowIdx, colIdx, playerId));
-                int win = m.checkWin();
-                if (move == 0 || win != -1) {
+                cellBuf.add(new Cell(rowIdx, colIdx, player));
+                m.move1(new Cell(rowIdx, colIdx, player));
+                OwnerEnum win = m.checkWin();
+                if (move == 0 || win != OwnerEnum.NONE) {
                     try {
-                        if (win == -1) { statusLbl.setText("Ход противника"); }
+                        if (win == OwnerEnum.NONE) { statusLbl.setText("Ход противника"); }
                         else { move = 0; statusLbl.setText("Вы победили?"); }
                         if (cellBuf.size() == 2) { dos.writeUTF(gson.toJson(new Msg(ActionEnum.MOVE2, cellBuf))); }
                         else { dos.writeUTF(gson.toJson(new Msg(ActionEnum.MOVE1, cellBuf))); }
@@ -107,7 +104,7 @@ public class CController {
                         Msg msg = gson.fromJson(str_msg, Msg.class);
                         switch (msg.act) {
                             case CONNECT:
-                                playerId = 1;
+                                player = OwnerEnum.WHITE;
                                 Platform.runLater(new Runnable() {
                                     @Override public void run() {
                                         moveLbl.setText(""+move);
@@ -119,7 +116,7 @@ public class CController {
                                 });
                                 break;
                             case MOVE1:
-                                playerId = 0;
+                                player = OwnerEnum.BLACK;
                                 move = 1;
                                 Platform.runLater(new Runnable() {
                                     @Override public void run() {
@@ -182,10 +179,10 @@ public class CController {
                 for (int i = 0; i < 19; ++i) {
                     for (int j = 0; j < 19; ++j) {
                         Circle cir = (Circle) ((Pane) grid.getChildren().get(i*19 + j)).getChildren().get(0);
-                        if (board.get(i*19 + j).ownerId == -1) {
+                        if (board.get(i*19 + j).owner == OwnerEnum.NONE) {
                             cir.setOpacity(0);
                         } else {
-                            cir.setFill((board.get(i*19 + j).ownerId == 0) ? Color.BLACK : Color.WHITE);
+                            cir.setFill((board.get(i*19 + j).owner == OwnerEnum.BLACK) ? Color.BLACK : Color.WHITE);
                             cir.setStroke(Color.BLACK);
                             cir.setOpacity(1);
                         }
