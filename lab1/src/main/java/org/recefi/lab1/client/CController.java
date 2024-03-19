@@ -23,6 +23,7 @@ import java.util.logging.Logger;
 public class CController {
     @FXML private GridPane grid;
     @FXML private Label moveLbl;
+    @FXML private Label moveCountLbl;
     @FXML private Label statusLbl;
     @FXML private Button connectBtn;
     @FXML private Circle playerCir;
@@ -87,6 +88,7 @@ public class CController {
         playerCir.setOpacity(0);
         move = 0;
         moveLbl.setText(""+move);
+        moveCountLbl.setText("Ход: " + m.getMoveCount());
         statusLbl.setText("Ожидание противника...");
         statusLbl.setTextFill(Color.BLACK);
 
@@ -107,7 +109,6 @@ public class CController {
                                 player = OwnerEnum.WHITE;
                                 Platform.runLater(new Runnable() {
                                     @Override public void run() {
-                                        moveLbl.setText(""+move);
                                         statusLbl.setText("Ход противника");
                                         playerCir.setFill(Color.WHITE);
                                         playerCir.setStroke(Color.BLACK);
@@ -118,9 +119,11 @@ public class CController {
                             case MOVE1:
                                 player = OwnerEnum.BLACK;
                                 move = 1;
+                                m.incMove();
                                 Platform.runLater(new Runnable() {
                                     @Override public void run() {
                                         moveLbl.setText(""+move);
+                                        moveCountLbl.setText("Ход: " + m.getMoveCount());
                                         statusLbl.setText("Ваш ход");
                                         playerCir.setFill(Color.BLACK);
                                         playerCir.setStroke(Color.BLACK);
@@ -130,9 +133,11 @@ public class CController {
                                 break;
                             case MOVE2:
                                 move = 2;
+                                m.incMove();
                                 Platform.runLater(new Runnable() {
                                     @Override public void run() {
                                         moveLbl.setText(""+move);
+                                        moveCountLbl.setText("Ход: " + m.getMoveCount());
                                         statusLbl.setText("Ваш ход");
                                     }
                                 });

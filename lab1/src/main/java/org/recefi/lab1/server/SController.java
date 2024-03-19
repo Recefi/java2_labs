@@ -5,16 +5,13 @@ import org.recefi.lab1.*;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.EOFException;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SController implements Runnable {
     int id;
-    int moveCount = 0;
     Socket sock1;
     Socket sock2;
     private DataInputStream dis1;
@@ -42,8 +39,9 @@ public class SController implements Runnable {
         try {
             OwnerEnum win = m.checkWin();
             if (win == OwnerEnum.NONE) {
+                m.incMove();
                 String str_msg = gson.toJson(new Msg(ActionEnum.MOVE2, m.getBoard()));
-                if (moveCount % 2 == 1)
+                if (m.getMoveCount() % 2 == 1)
                     dos2.writeUTF(str_msg);
                 else
                     dos1.writeUTF(str_msg);
@@ -85,10 +83,9 @@ public class SController implements Runnable {
             initRoom();
 
             while (!sock1.isClosed() && !sock2.isClosed()) {
-                if (moveCount % 2 == 0) {
+                if (m.getMoveCount() % 2 == 0) {
                     String str_msg = dis1.readUTF();
                     System.out.println("Room " + id + ", Client 0: " + str_msg);
-                    moveCount++;
                     Msg msg = gson.fromJson(str_msg, Msg.class);
                     if (msg.act == ActionEnum.MOVE1)
                         m.move1(msg.cells.get(0));
@@ -99,7 +96,6 @@ public class SController implements Runnable {
                 } else {
                     String str_msg = dis2.readUTF();
                     System.out.println("Room " + id + ", Client 1: " + str_msg);
-                    moveCount++;
                     Msg msg = gson.fromJson(str_msg, Msg.class);
                     if (msg.act == ActionEnum.MOVE1)
                         m.move1(msg.cells.get(0));

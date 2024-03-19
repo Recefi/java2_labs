@@ -7,6 +7,7 @@ import java.util.ArrayList;
 public class SModel {
     private ArrayList<Cell> board = new ArrayList<>();
     private ArrayList<ObserverInt> observers = new ArrayList<>();
+    private int moveCount = 0;
 
     private void init() {
         for (int i = 0; i < 19; ++i)
@@ -18,6 +19,7 @@ public class SModel {
         board.clear();
         init();
         refresh();
+        moveCount = 0;
     }
 
     public SModel() {
@@ -33,6 +35,8 @@ public class SModel {
             obs.refresh();
     }
 
+    public int getMoveCount() { return moveCount; }
+    public void incMove() { moveCount++; }
     public ArrayList<Cell> getBoard() { return board; }
     public void setBoard(ArrayList<Cell> board) {
         for (int i = 0; i < 19; ++i)

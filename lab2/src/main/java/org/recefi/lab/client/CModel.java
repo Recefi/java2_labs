@@ -10,6 +10,7 @@ import java.util.List;
 public class CModel {
     private List<Cell> board = new ArrayList<>();
     private ArrayList<ObserverInt> observers = new ArrayList<>();
+    private int moveCount = 0;
 
     private void init() {
         for (int i = 0; i < 19; ++i) {
@@ -27,6 +28,7 @@ public class CModel {
         board.clear();
         init();
         refresh();
+        moveCount = 0;
     }
 
     public CModel() {
@@ -42,6 +44,8 @@ public class CModel {
             obs.refresh();
     }
 
+    public int getMoveCount() { return moveCount; }
+    public void incMove() { moveCount++; }
     public List<Cell> getBoard() { return board; }
     public void setBoard(List<Cell> board) {
         for (int i = 0; i < 19; ++i)

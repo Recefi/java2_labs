@@ -10,7 +10,6 @@ public class Server {
     static String url = "http://localhost:7474/Connect6";
     static private SModel m = new SModel();
     private int clientNum = 0;
-    static private int moveCount = 0;
 
     @WebMethod
     public boolean checkStart() {
@@ -25,7 +24,7 @@ public class Server {
     @WebMethod
     public OwnerEnum checkMove() {
         //return OwnerEnum.values()[moveCount % 2];
-        return OwnerEnum.fromInt(moveCount % 2);
+        return OwnerEnum.fromInt(m.getMoveCount() % 2);
     }
 
     @WebMethod
@@ -33,7 +32,6 @@ public class Server {
         if (clientNum > 1) {
             m.reset();
             clientNum = 0;
-            moveCount = 0;
         }
         System.out.println("Client " + clientNum + " connected.");
         //return OwnerEnum.values()[clientNum++];
@@ -55,11 +53,10 @@ public class Server {
         m.move2(cell1, cell2);
     }
 
-
     public static void main(String[] args) {
         Server service = new Server();
         Endpoint.publish(url, service);
         System.out.println("Webservice started on " + url);
-        m.addObserver(() -> { moveCount++; });
+        m.addObserver(() -> { m.incMove(); });
     }
 }
